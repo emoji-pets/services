@@ -19,8 +19,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityLinks;
 import org.springframework.stereotype.Component;
 
-@JsonInclude(Include.NON_NULL)
-@JsonIgnoreProperties(value = {"id", "created", "absences"}, allowGetters = true, ignoreUnknown = true)
+// @JsonInclude(Include.NON_NULL)
+// @JsonIgnoreProperties(value = {"id", "created", "absences"}, allowGetters = true, ignoreUnknown = true)
 @Component
 @Entity
 public class Player {
@@ -47,5 +47,29 @@ public class Player {
 
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "player", cascade = CascadeType.ALL)
   @OrderBy("start DESC")
-  private List<Pet> absences = new LinkedList<>();
+  private List<Pet> pets = new LinkedList<>();
+
+  public long getId() {
+    return id;
+  }
+
+  public void setId(long id) {
+    this.id = id;
+  }
+
+  public String getDisplay_name() {
+    return display_name;
+  }
+
+  public void setDisplay_name(String display_name) {
+    this.display_name = display_name;
+  }
+
+  public List<Pet> getPets() {
+    return pets;
+  }
+
+  public void setPets(List<Pet> pets) {
+    this.pets = pets;
+  }
 }
