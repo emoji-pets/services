@@ -1,5 +1,6 @@
 package cnm.edu.deepdive.emojipetsservice.model.entity;
 
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -44,23 +45,22 @@ public class Pet {
   private String petName;
 
   @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @OrderBy("start DESC")
   private Player player;
 
-  @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-  private Hunger hunger;
+  private int hunger;
+  private Date hungerDate;
 
-  @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-  private Love love;
+  private int love;
+  private Date loveDate;
 
-  @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-  private Play play;
+  private int play;
+  private Date playDate;
 
-  @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-  private Potty potty;
+  private int potty;
+  private Date pottyDate;
 
-  @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-  private Sleep sleep;
+  private int sleep;
+  private Date sleepDate;
 
   public long getId() {
     return id;
@@ -86,43 +86,83 @@ public class Pet {
     this.player = player;
   }
 
-  public Hunger getHunger() {
+  public int getHunger() {
     return hunger;
   }
 
-  public void setHunger(Hunger hunger) {
+  public void setHunger(int hunger) {
     this.hunger = hunger;
   }
 
-  public Love getLove() {
+  public Date getHungerDate() {
+    return hungerDate;
+  }
+
+  public void setHungerDate(Date hungerDate) {
+    this.hungerDate = hungerDate;
+  }
+
+  public int getLove() {
     return love;
   }
 
-  public void setLove(Love love) {
+  public void setLove(int love) {
     this.love = love;
   }
 
-  public Play getPlay() {
+  public Date getLoveDate() {
+    return loveDate;
+  }
+
+  public void setLoveDate(Date loveDate) {
+    this.loveDate = loveDate;
+  }
+
+  public int getPlay() {
     return play;
   }
 
-  public void setPlay(Play play) {
+  public void setPlay(int play) {
     this.play = play;
   }
 
-  public Potty getPotty() {
+  public Date getPlayDate() {
+    return playDate;
+  }
+
+  public void setPlayDate(Date playDate) {
+    this.playDate = playDate;
+  }
+
+  public int getPotty() {
     return potty;
   }
 
-  public void setPotty(Potty potty) {
+  public void setPotty(int potty) {
     this.potty = potty;
   }
 
-  public Sleep getSleep() {
+  public Date getPottyDate() {
+    return pottyDate;
+  }
+
+  public void setPottyDate(Date pottyDate) {
+    this.pottyDate = pottyDate;
+  }
+
+  public int getSleep() {
     return sleep;
   }
 
-  public void setSleep(Sleep sleep) {
+  public void setSleep(int sleep) {
     this.sleep = sleep;
+  }
+
+  public Date getSleepDate() {
+    return sleepDate;
+  }
+
+  public void setSleepDate(Date sleepDate) {
+    this.sleepDate = sleepDate;
   }
 }

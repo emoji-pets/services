@@ -34,15 +34,24 @@ public class Friendship {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  @Column(name = "pet_id", nullable = false, updatable = false)
+  @Column(name = "friendship_id", nullable = false, updatable = false)
   private long id;
 
-  @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @OrderBy("start DESC")
-  @JoinTable(name = "post_tags",
-      joinColumns = { @JoinColumn(name = "player_id") },
-      inverseJoinColumns = { @JoinColumn(name = "player_id") })
-  private Player player;
+  // TODO player to player id map
+
+//  @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//  @OrderBy("start DESC")
+//  @JoinTable(name = "player",
+//      joinColumns = { @JoinColumn(name = "player_id") },
+//      inverseJoinColumns = { @JoinColumn(name = "player_id") })
+//  private Player player1;
+//
+//  @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//  @OrderBy("start DESC")
+//  @JoinTable(name = "post_tags",
+//      joinColumns = { @JoinColumn(name = "player_2") },
+//      inverseJoinColumns = { @JoinColumn(name = "player_1") })
+//  private Player player2;
 
 
 }
