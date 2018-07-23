@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OrderBy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityLinks;
@@ -38,20 +39,12 @@ public class Friendship {
   private long id;
 
   // TODO player to player id map
+  @ManyToOne
+  @JoinColumn(name = Player.PRIMARY_KEY_COLUMN, nullable = false)
+  private Player player1;
 
-//  @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//  @OrderBy("start DESC")
-//  @JoinTable(name = "player",
-//      joinColumns = { @JoinColumn(name = "player_id") },
-//      inverseJoinColumns = { @JoinColumn(name = "player_id") })
-//  private Player player1;
-//
-//  @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//  @OrderBy("start DESC")
-//  @JoinTable(name = "post_tags",
-//      joinColumns = { @JoinColumn(name = "player_2") },
-//      inverseJoinColumns = { @JoinColumn(name = "player_1") })
-//  private Player player2;
-
+  @ManyToOne
+  @JoinColumn(name = Player.PRIMARY_KEY_COLUMN, nullable = false)
+  private Player player2;
 
 }

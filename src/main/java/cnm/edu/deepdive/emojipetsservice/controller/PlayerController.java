@@ -20,9 +20,9 @@ public class PlayerController {
     this.playerRepository = playerRepository;
   }
 
-  @GetMapping
-  public Iterable<Player> list() {
-    return playerRepository
-  }
+//  @GetMapping
+//  public Iterable<Player> list() {
+//    return playerRepository
+//  }
 
 }
