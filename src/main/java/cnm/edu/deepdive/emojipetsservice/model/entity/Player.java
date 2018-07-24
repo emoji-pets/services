@@ -1,5 +1,6 @@
 package cnm.edu.deepdive.emojipetsservice.model.entity;
 
+import java.net.URI;
 import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -46,30 +47,38 @@ public class Player {
   @Column(name = "display_name", nullable = false, length = 100)
   private String display_name;
 
-  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JoinTable(name = "friendship",
-      joinColumns = { @JoinColumn(name = "player_id") })
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "player1", cascade = CascadeType.ALL)
   private List<Friendship> friendships;
 
-  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JoinTable(name = "friend_requests",
-      joinColumns = { @JoinColumn(name = "player_id") })
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "player1", cascade = CascadeType.ALL)
   private List<FriendRequest> friendRequests;
 
+  @Column(name = "pet_name", length = 100)
+  private String pet_name;
+
   // TODO set initial value
+  @Column(name = "level", nullable = false, columnDefinition = "int default 1")
   private int level = 1;
 
-  private int couragePoints;
-  private int couragePointsMax;
+  @Column(name = "courage_points", nullable = false, columnDefinition = "int default 0")
+  private int couragePoints = 0;
+  @Column(name = "courage_points_max", nullable = false, columnDefinition = "int default 100")
+  private int couragePointsMax = 100;
 
-  private int manaPoints;
-  private int manaPointsMax;
+  @Column(name = "mana_points", nullable = false, columnDefinition = "int default 0")
+  private int manaPoints = 0;
+  @Column(name = "mana_points_max", nullable = false, columnDefinition = "int default 100")
+  private int manaPointsMax = 100;;
 
-  private int healthPoints;
-  private int healthPointsMax;
+  @Column(name = "health_points", nullable = false, columnDefinition = "int default 0")
+  private int healthPoints = 0;
+  @Column(name = "health_points_max", nullable = false, columnDefinition = "int default 100")
+  private int healthPointsMax = 100;;
 
-  private int powerPoints;
-  private int powerPointsMax;
+  @Column(name = "power_points", nullable = false, columnDefinition = "int default 0")
+  private int powerPoints = 0;
+  @Column(name = "power_points_max", nullable = false, columnDefinition = "int default 100")
+  private int powerPointsMax = 100;;
 
   public long getId() {
     return id;
@@ -175,5 +184,17 @@ public class Player {
 
   public void setLevel(int level) {
     this.level = level;
+  }
+
+  public String getPet_name() {
+    return pet_name;
+  }
+
+  public void setPet_name(String pet_name) {
+    this.pet_name = pet_name;
+  }
+
+  public URI getHref() {
+    return entityLinks.linkForSingleResource(Player.class, id).toUri();
   }
 }
