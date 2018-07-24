@@ -53,6 +53,8 @@ public class PlayerController {
     return playerRepository.findById(id).get();
   }
 
+  // TODO Do this for all fields in player except friend ones and id
+
   // why don't we have to put this in { "courage_points": 100 }, it works with just the int
   @PutMapping(value = "{playerId}/couragePoints", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public int setCouragePointsJson(@PathVariable("playerId") long playerId, @RequestBody int couragePoints) {
