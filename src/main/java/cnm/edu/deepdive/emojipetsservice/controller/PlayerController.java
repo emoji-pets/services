@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -51,6 +52,31 @@ public class PlayerController {
   public Player get(@PathVariable("player_id") long id) {
     return playerRepository.findById(id).get();
   }
+
+  // why don't we have to put this in { "courage_points": 100 }, it works with just the int
+  @PutMapping(value = "{playerId}/couragePoints", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  public int setCouragePointsJson(@PathVariable("playerId") long playerId, @RequestBody int couragePoints) {
+    Player player = get(playerId);
+    player.setCouragePoints(couragePoints);
+    return playerRepository.save(player).getCouragePoints();
+  }
+
+  @PutMapping(value = "{playerId}/couragePoints", consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
+  public String setCouragePointsText(@PathVariable("playerId") long playerId, @RequestBody String couragePoints) {
+    return Integer.toString(setCouragePointsJson(playerId, Integer.parseInt(couragePoints)));
+  }
+
+//  @PutMapping(value = "{absenceId}/excused", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+//  public boolean setExcusedJson(@PathVariable("studentId") long studentId, @PathVariable("absenceId") long absenceId, @RequestBody boolean excused) {
+//    Absence absence = get(studentId, absenceId);
+//    absence.setExcused(excused);
+//    return absenceRepository.save(absence).isExcused();
+//  }
+//
+//  @PutMapping(value = "{absenceId}/excused", consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
+//  public String setExcusedText(@PathVariable("studentId") long studentId, @PathVariable("absenceId") long absenceId, @RequestBody String excused) {
+//    return Boolean.toString(setExcusedJson(studentId, absenceId, Boolean.parseBoolean(excused)));
+//  }
 
   @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Resource not found")
   @ExceptionHandler(NoSuchElementException.class)
