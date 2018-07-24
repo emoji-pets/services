@@ -56,6 +56,20 @@ public class PlayerController {
 
   // why don't we have to put this in { "courage_points": 100 }, it works with just the int
 
+  @PutMapping(value = "{playerId}/pet_name", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  public String setPet_nameJson(@PathVariable("playerId") long playerId,
+      @RequestBody String pet_name) {
+    Player player = get(playerId);
+    player.setPet_name(pet_name);
+    return playerRepository.save(player).getPet_name();
+  }
+
+  @PutMapping(value = "{playerId}/pet_name", consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
+  public String setPet_nameText(@PathVariable("playerId") long playerId,
+      @RequestBody String pet_name) {
+    return setPet_nameJson(playerId, pet_name);
+  }
+
   @PutMapping(value = "{playerId}/couragePoints", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public int setCouragePointsJson(@PathVariable("playerId") long playerId,
       @RequestBody int couragePoints) {
