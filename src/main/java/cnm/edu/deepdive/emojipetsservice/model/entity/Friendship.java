@@ -33,18 +33,18 @@ public class Friendship {
     Friendship.entityLinks = entityLinks;
   }
 
-  @Id
+  @Id // makes primary key
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "friendship_id", nullable = false, updatable = false)
   private long id;
 
   // TODO player to player id map
   @ManyToOne
-  @JoinColumn(name = Player.PRIMARY_KEY_COLUMN, nullable = false)
+  @JoinColumn(name = "player1_id", nullable = false)
   private Player player1;
 
   @ManyToOne
-  @JoinColumn(name = Player.PRIMARY_KEY_COLUMN, nullable = false)
+  @JoinColumn(name = "player2_id", nullable = false)
   private Player player2;
 
 }
