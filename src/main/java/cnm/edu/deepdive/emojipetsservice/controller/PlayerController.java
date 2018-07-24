@@ -56,6 +56,7 @@ public class PlayerController {
   // TODO Do this for all fields in player except friend ones and id
 
   // why don't we have to put this in { "courage_points": 100 }, it works with just the int
+
   @PutMapping(value = "{playerId}/couragePoints", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public int setCouragePointsJson(@PathVariable("playerId") long playerId, @RequestBody int couragePoints) {
     Player player = get(playerId);
@@ -66,6 +67,26 @@ public class PlayerController {
   @PutMapping(value = "{playerId}/couragePoints", consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
   public String setCouragePointsText(@PathVariable("playerId") long playerId, @RequestBody String couragePoints) {
     return Integer.toString(setCouragePointsJson(playerId, Integer.parseInt(couragePoints)));
+  }
+
+  @PutMapping(value = "{playerId}/couragePointsMax", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  public int setCouragePointsMaxJson(@PathVariable("playerId") long playerId, @RequestBody int couragePointsMax) {
+    Player player = get(playerId);
+    player.setCouragePointsMax(couragePointsMax);
+    return playerRepository.save(player).getCouragePointsMax();
+  }
+
+  @PutMapping(value = "{playerId}/couragePointsMax", consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
+  public String setCouragePointsMaxText(@PathVariable("playerId") long playerId, @RequestBody String couragePointsMax) {
+    return Integer.toString(setCouragePointsMaxJson(playerId, Integer.parseInt(couragePointsMax)));
+  }
+
+  @PutMapping(value = "{playerId}/manaPoints", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  public int setManaPointsJson(@PathVariable("playerId") long playerId, @RequestBody int manaPoints) {
+    Player player = get(playerId);
+    player.setCouragePoints(manaPoints);
+    return playerRepository.save(player).getManaPoints();
+
   }
 
 //  @PutMapping(value = "{absenceId}/excused", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
