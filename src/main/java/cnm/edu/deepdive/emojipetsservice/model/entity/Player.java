@@ -1,7 +1,11 @@
 package cnm.edu.deepdive.emojipetsservice.model.entity;
 
+import cnm.edu.deepdive.emojipetsservice.view.Loner;
+import cnm.edu.deepdive.emojipetsservice.view.View;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonView;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import java.net.URI;
-import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.persistence.CascadeType;
@@ -16,15 +20,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityLinks;
 import org.springframework.stereotype.Component;
 
-// @JsonInclude(Include.NON_NULL)
-// @JsonIgnoreProperties(value = {"id", "created", "absences"}, allowGetters = true, ignoreUnknown = true)
 @Component
 @Entity
-public class Player {
+public class Player implements Loner {
 
   public static final String PRIMARY_KEY_COLUMN = "player_id";
   private static EntityLinks entityLinks;
-
 
   @PostConstruct
   private void init() {

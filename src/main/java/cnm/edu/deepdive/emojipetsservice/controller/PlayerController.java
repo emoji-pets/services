@@ -2,6 +2,8 @@ package cnm.edu.deepdive.emojipetsservice.controller;
 
 import cnm.edu.deepdive.emojipetsservice.model.dao.PlayerRepository;
 import cnm.edu.deepdive.emojipetsservice.model.entity.Player;
+import cnm.edu.deepdive.emojipetsservice.view.View;
+import com.fasterxml.jackson.annotation.JsonView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
