@@ -1,11 +1,9 @@
 package cnm.edu.deepdive.emojipetsservice.model.entity;
 
 import cnm.edu.deepdive.emojipetsservice.view.Loner;
-import cnm.edu.deepdive.emojipetsservice.view.View;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonView;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.net.URI;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.persistence.CascadeType;
@@ -15,6 +13,9 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityLinks;
@@ -45,11 +46,17 @@ public class Player implements Loner {
   @Column(name = "display_name", nullable = false, length = 100)
   private String display_name;
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "player1", cascade = CascadeType.ALL)
-  private List<Friendship> friendships;
+  @JsonSerialize(contentAs = Loner.class)
+  @ManyToMany(fetch = FetchType.LAZY) // cascade = ?
+  @JoinTable(name = "followers", joinColumns = {@JoinColumn(name = "player2_id")},
+      inverseJoinColumns = {@JoinColumn(name = "player1_id")})
+  private List<Player> followers;
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "player1", cascade = CascadeType.ALL)
-  private List<FriendRequest> friendRequests;
+  @JsonSerialize(contentAs = Loner.class)
+  @ManyToMany(fetch = FetchType.LAZY)
+  @JoinTable(name = "following", joinColumns = {@JoinColumn(name = "player1_id")},
+      inverseJoinColumns = {@JoinColumn(name = "player2_id")})
+  private List<Player> following;
 
   @Column(name = "pet_name", length = 100)
   private String pet_name;
@@ -57,6 +64,12 @@ public class Player implements Loner {
   // TODO set initial value
   @Column(name = "level", nullable = false, columnDefinition = "int default 1")
   private int level = 1;
+
+  @Column(name = "xp", nullable = false, columnDefinition = "int default 1")
+  private int xp = 0;
+
+  @Column(nullable = false)
+  private Long updated = new Date().getTime();
 
   @Column(name = "courage_points", nullable = false, columnDefinition = "int default 0")
   private int couragePoints = 0;
@@ -92,24 +105,6 @@ public class Player implements Loner {
 
   public void setDisplay_name(String display_name) {
     this.display_name = display_name;
-  }
-
-  public List<Friendship> getFriendships() {
-    return friendships;
-  }
-
-  public void setFriendships(
-      List<Friendship> friendships) {
-    this.friendships = friendships;
-  }
-
-  public List<FriendRequest> getFriendRequests() {
-    return friendRequests;
-  }
-
-  public void setFriendRequests(
-      List<FriendRequest> friendRequests) {
-    this.friendRequests = friendRequests;
   }
 
   public int getCouragePoints() {
@@ -190,6 +185,38 @@ public class Player implements Loner {
 
   public void setPet_name(String pet_name) {
     this.pet_name = pet_name;
+  }
+
+  public List<Player> getFollowers() {
+    return followers;
+  }
+
+  public void setFollowers(List<Player> followers) {
+    this.followers = followers;
+  }
+
+  public List<Player> getFollowing() {
+    return following;
+  }
+
+  public void setFollowing(List<Player> following) {
+    this.following = following;
+  }
+
+  public int getXp() {
+    return xp;
+  }
+
+  public void setXp(int xp) {
+    this.xp = xp;
+  }
+
+  public Long getUpdated() {
+    return updated;
+  }
+
+  public void setUpdated(Long updated) {
+    this.updated = updated;
   }
 
   public URI getHref() {

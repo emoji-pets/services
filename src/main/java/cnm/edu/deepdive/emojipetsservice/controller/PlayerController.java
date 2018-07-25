@@ -2,8 +2,7 @@ package cnm.edu.deepdive.emojipetsservice.controller;
 
 import cnm.edu.deepdive.emojipetsservice.model.dao.PlayerRepository;
 import cnm.edu.deepdive.emojipetsservice.model.entity.Player;
-import cnm.edu.deepdive.emojipetsservice.view.View;
-import com.fasterxml.jackson.annotation.JsonView;
+import cnm.edu.deepdive.emojipetsservice.model.pojo.FollowConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -182,6 +181,19 @@ public class PlayerController {
   public String setPowerPointsMaxText(@PathVariable("playerId") long playerId,
       @RequestBody String powerPointsMax) {
     return Integer.toString(setPowerPointsMaxJson(playerId, Integer.parseInt(powerPointsMax)));
+  }
+
+  @PostMapping(value = "{playerId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<FollowConnection> post(
+      @PathVariable("playerId") long playerId,
+      @RequestBody FollowConnection followConnection) {
+    long p2 = followConnection.getPlayer2_id();
+    Player player1 = get(playerId);
+    Player player2 = get(p2);
+    List<Player> following = player1.getFollowing();
+    following.add(player2);
+    playerRepository.save(player1).getFollowing();
+    return ResponseEntity.created(get(playerId).getHref()).body(followConnection);
   }
 
 //  @PutMapping(value = "{absenceId}/excused", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
