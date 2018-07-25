@@ -6,11 +6,13 @@ import cnm.edu.deepdive.emojipetsservice.model.pojo.FollowConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -55,11 +57,20 @@ public class PlayerController {
     return playerRepository.findById(id).get();
   }
 
-  // why don't we have to put this in { "courage_points": 100 }, it works with just the int
+  @PutMapping(value = "{playerId}/display_name", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
+  public String setDisplay_nameJson(@PathVariable("playerId") long playerId, @RequestBody String display_name) {
+    Player player = get(playerId);
+    player.setDisplay_name(display_name);
+    return playerRepository.save(player).getDisplay_name();
+  }
 
-  @PutMapping(value = "{playerId}/pet_name", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  public String setPet_nameJson(@PathVariable("playerId") long playerId,
-      @RequestBody String pet_name) {
+  @PutMapping(value = "{playerId}/display_name", consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
+  public String setDisplay_nameText(@PathVariable("playerId") long playerId, @RequestBody String display_name) {
+    return setDisplay_nameJson(playerId, display_name);
+  }
+
+  @PutMapping(value = "{playerId}/pet_name", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
+  public String setPet_nameJson(@PathVariable("playerId") long playerId, @RequestBody String pet_name) {
     Player player = get(playerId);
     player.setPet_name(pet_name);
     return playerRepository.save(player).getPet_name();
@@ -69,6 +80,56 @@ public class PlayerController {
   public String setPet_nameText(@PathVariable("playerId") long playerId,
       @RequestBody String pet_name) {
     return setPet_nameJson(playerId, pet_name);
+  }
+
+  @PutMapping(value = "{playerId}/timeStamp", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  public long setTimeStampJson(@PathVariable("playerId") long playerId, @RequestBody long timeStamp) {
+    Player player = get(playerId);
+    player.setTimeStamp(timeStamp);
+    return playerRepository.save(player).getTimeStamp();
+  }
+
+  @PutMapping(value = "{playerId}/timeStamp", consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
+  public long setTimeStamp(@PathVariable("playerId") long playerId, @RequestBody long timeStamp) {
+    return setTimeStampJson(playerId, timeStamp);
+  }
+
+  @PutMapping(value = "{playerId}/level", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  public int setLevelJson(@PathVariable("playerId") long playerId, @RequestBody int level) {
+    Player player = get(playerId);
+    player.setLevel(level);
+    return playerRepository.save(player).getLevel();
+  }
+
+  @PutMapping(value = "{playerId}/level", consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
+  public int setLeve(@PathVariable("playerId") long playerId, @RequestBody int level) {
+    return setLevelJson(playerId, level);
+  }
+
+  @PutMapping(value = "{playerId}/xp", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  public int setXpJson(@PathVariable("playerId") long playerId, @RequestBody int xp) {
+    Player player = get(playerId);
+    player.setXp(xp);
+    return playerRepository.save(player).getXp();
+  }
+
+  @PutMapping(value = "{playerId}/xp", consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
+  public int setXp(@PathVariable("playerId") long playerId,
+      @RequestBody int xp) {
+    return setXpJson(playerId, xp);
+  }
+
+  @PutMapping(value = "{playerId}/maxXp", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+  public int setMaxXpJson(@PathVariable("playerId") long playerId, @RequestBody int maxXp) {
+    Player player = get(playerId);
+    player.setMaxXp(maxXp);
+    return playerRepository.save(player).getMaxXp();
+  }
+
+  @PutMapping(value = "{playerId}/maxXp", consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
+  public int setMaxXp(@PathVariable("playerId") long playerId,
+      @RequestBody int maxXp) {
+    return setMaxXpJson(playerId, maxXp);
   }
 
   @PutMapping(value = "{playerId}/couragePoints", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -183,30 +244,35 @@ public class PlayerController {
     return Integer.toString(setPowerPointsMaxJson(playerId, Integer.parseInt(powerPointsMax)));
   }
 
-  @PostMapping(value = "{playerId}", consumes = MediaType.APPLICATION_JSON_VALUE)
+  @PostMapping(value = "{playerId}/follow", consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<FollowConnection> post(
       @PathVariable("playerId") long playerId,
       @RequestBody FollowConnection followConnection) {
     long p2 = followConnection.getPlayer2_id();
     Player player1 = get(playerId);
     Player player2 = get(p2);
-    List<Player> following = player1.getFollowing();
+    Set<Player> following = player1.getFollowing();
+    Set<Player> followers = player2.getFollowers();
     following.add(player2);
+    followers.add(player1);
     playerRepository.save(player1).getFollowing();
+    playerRepository.save(player2).getFollowers();
     return ResponseEntity.created(get(playerId).getHref()).body(followConnection);
   }
 
-//  @PutMapping(value = "{absenceId}/excused", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-//  public boolean setExcusedJson(@PathVariable("studentId") long studentId, @PathVariable("absenceId") long absenceId, @RequestBody boolean excused) {
-//    Absence absence = get(studentId, absenceId);
-//    absence.setExcused(excused);
-//    return absenceRepository.save(absence).isExcused();
-//  }
-//
-//  @PutMapping(value = "{absenceId}/excused", consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
-//  public String setExcusedText(@PathVariable("studentId") long studentId, @PathVariable("absenceId") long absenceId, @RequestBody String excused) {
-//    return Boolean.toString(setExcusedJson(studentId, absenceId, Boolean.parseBoolean(excused)));
-//  }
+  @DeleteMapping("{playerId}/unfollow")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void delete(@PathVariable("playerId") long playerId, @RequestBody FollowConnection followConnection) {
+    long p2 = followConnection.getPlayer2_id();
+    Player player1 = get(playerId);
+    Player player2 = get(p2);
+    Set<Player> following = player1.getFollowing();
+    Set<Player> followers = player2.getFollowers();
+    following.remove(player2);
+    followers.remove(player1);
+    playerRepository.save(player1).getFollowing();
+    playerRepository.save(player2).getFollowers();
+  }
 
   @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Resource not found")
   @ExceptionHandler(NoSuchElementException.class)

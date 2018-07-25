@@ -4,9 +4,8 @@ import cnm.edu.deepdive.emojipetsservice.view.Loner;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.net.URI;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 import javax.annotation.PostConstruct;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,7 +15,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityLinks;
 import org.springframework.stereotype.Component;
@@ -50,13 +48,13 @@ public class Player implements Loner {
   @ManyToMany(fetch = FetchType.LAZY) // cascade = ?
   @JoinTable(name = "followers", joinColumns = {@JoinColumn(name = "player2_id")},
       inverseJoinColumns = {@JoinColumn(name = "player1_id")})
-  private List<Player> followers;
+  private Set<Player> followers;
 
   @JsonSerialize(contentAs = Loner.class)
   @ManyToMany(fetch = FetchType.LAZY)
   @JoinTable(name = "following", joinColumns = {@JoinColumn(name = "player1_id")},
       inverseJoinColumns = {@JoinColumn(name = "player2_id")})
-  private List<Player> following;
+  private Set<Player> following;
 
   @Column(name = "pet_name", length = 100)
   private String pet_name;
@@ -68,8 +66,11 @@ public class Player implements Loner {
   @Column(name = "xp", nullable = false, columnDefinition = "int default 1")
   private int xp = 0;
 
+  @Column(name = "maxXp", nullable = false, columnDefinition = "int default 1")
+  private int maxXp = 0;
+
   @Column(nullable = false)
-  private Long updated = new Date().getTime();
+  private Long timeStamp = new Date().getTime();
 
   @Column(name = "courage_points", nullable = false, columnDefinition = "int default 0")
   private int couragePoints = 0;
@@ -187,20 +188,28 @@ public class Player implements Loner {
     this.pet_name = pet_name;
   }
 
-  public List<Player> getFollowers() {
+  public Set<Player> getFollowers() {
     return followers;
   }
 
-  public void setFollowers(List<Player> followers) {
+  public void setFollowers(Set<Player> followers) {
     this.followers = followers;
   }
 
-  public List<Player> getFollowing() {
+  public Set<Player> getFollowing() {
     return following;
   }
 
-  public void setFollowing(List<Player> following) {
+  public void setFollowing(Set<Player> following) {
     this.following = following;
+  }
+
+  public int getMaxXp() {
+    return maxXp;
+  }
+
+  public void setMaxXp(int maxXp) {
+    this.maxXp = maxXp;
   }
 
   public int getXp() {
@@ -211,12 +220,12 @@ public class Player implements Loner {
     this.xp = xp;
   }
 
-  public Long getUpdated() {
-    return updated;
+  public Long getTimeStamp() {
+    return timeStamp;
   }
 
-  public void setUpdated(Long updated) {
-    this.updated = updated;
+  public void setTimeStamp(Long timeStamp) {
+    this.timeStamp = timeStamp;
   }
 
   public URI getHref() {
