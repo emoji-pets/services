@@ -59,6 +59,9 @@ public class Player implements Loner {
   @Column(name = "pet_name", length = 100)
   private String pet_name;
 
+  @Column(name = "pen_emoji", length = 20)
+  private String pet_emoji;
+
   // TODO set initial value
   @Column(name = "level", nullable = false, columnDefinition = "int default 1")
   private int level = 1;
@@ -102,6 +105,14 @@ public class Player implements Loner {
 
   public String getDisplay_name() {
     return display_name;
+  }
+
+  public String getPet_emoji() {
+    return pet_emoji;
+  }
+
+  public void setPet_emoji(String pet_emoji) {
+    this.pet_emoji = pet_emoji;
   }
 
   public void setDisplay_name(String display_name) {

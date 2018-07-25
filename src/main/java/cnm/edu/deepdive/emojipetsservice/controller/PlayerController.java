@@ -82,6 +82,19 @@ public class PlayerController {
     return setPet_nameJson(playerId, pet_name);
   }
 
+  @PutMapping(value = "{playerId}/pet_emoji", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
+  public String setPet_emojiJson(@PathVariable("playerId") long playerId, @RequestBody String pet_emoji) {
+    Player player = get(playerId);
+    player.setPet_emoji(pet_emoji);
+    return playerRepository.save(player).getPet_emoji();
+  }
+
+  @PutMapping(value = "{playerId}/pet_emoji", consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
+  public String setPet_emojiText(@PathVariable("playerId") long playerId,
+      @RequestBody String pet_emoji) {
+    return setPet_emojiJson(playerId, pet_emoji);
+  }
+
   @PutMapping(value = "{playerId}/timeStamp", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   public long setTimeStampJson(@PathVariable("playerId") long playerId, @RequestBody long timeStamp) {
     Player player = get(playerId);
