@@ -4,8 +4,10 @@ import cnm.edu.deepdive.emojipetsservice.view.Loner;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.net.URI;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 import javax.annotation.PostConstruct;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -45,16 +47,16 @@ public class Player implements Loner {
   private String display_name;
 
   @JsonSerialize(contentAs = Loner.class)
-  @ManyToMany(fetch = FetchType.LAZY) // cascade = ?
+  @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH,
+      CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}) // cascade = ?
   @JoinTable(name = "followers", joinColumns = {@JoinColumn(name = "player2_id")},
       inverseJoinColumns = {@JoinColumn(name = "player1_id")})
-  private Set<Player> followers;
+  private Set<Player> followers = new HashSet<>();
 
   @JsonSerialize(contentAs = Loner.class)
-  @ManyToMany(fetch = FetchType.LAZY)
-  @JoinTable(name = "following", joinColumns = {@JoinColumn(name = "player1_id")},
-      inverseJoinColumns = {@JoinColumn(name = "player2_id")})
-  private Set<Player> following;
+  @ManyToMany(fetch = FetchType.LAZY, mappedBy = "followers", cascade = {CascadeType.REFRESH,
+      CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
+  private Set<Player> following = new HashSet<>();
 
   @Column(name = "pet_name", length = 100)
   private String pet_name;

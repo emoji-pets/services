@@ -2,11 +2,11 @@ package cnm.edu.deepdive.emojipetsservice.controller;
 
 import cnm.edu.deepdive.emojipetsservice.model.dao.PlayerRepository;
 import cnm.edu.deepdive.emojipetsservice.model.entity.Player;
-import cnm.edu.deepdive.emojipetsservice.model.pojo.FollowConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.ExposesResourceFor;
 import org.springframework.http.HttpStatus;
@@ -51,6 +51,14 @@ public class PlayerController {
     playerRepository.save(player);
     return ResponseEntity.created(player.getHref()).body(player);
   }
+
+//  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+//  public ResponseEntity<Player> post(@RequestBody Player... players) {
+//    for (Player player : players) {
+//      playerRepository.save(player);
+//    }
+//    return ResponseEntity.created(players[0].getHref()).body(players[0]);
+//  }
 
   @GetMapping("{player_id}")
   public Player get(@PathVariable("player_id") long id) {
@@ -257,34 +265,62 @@ public class PlayerController {
     return Integer.toString(setPowerPointsMaxJson(playerId, Integer.parseInt(powerPointsMax)));
   }
 
-  @PostMapping(value = "{playerId}/follow", consumes = MediaType.APPLICATION_JSON_VALUE)
-  public ResponseEntity<FollowConnection> post(
+  @PostMapping(value = "{playerId}/follow/{playerId2}", consumes = MediaType.APPLICATION_JSON_VALUE)
+  public ResponseEntity<Player> post(
       @PathVariable("playerId") long playerId,
-      @RequestBody FollowConnection followConnection) {
-    long p2 = followConnection.getPlayer2_id();
+      @PathVariable("playerId2") long playerId2) {
     Player player1 = get(playerId);
-    Player player2 = get(p2);
+    Player player2 = get(playerId2);
     Set<Player> following = player1.getFollowing();
     Set<Player> followers = player2.getFollowers();
     following.add(player2);
     followers.add(player1);
     playerRepository.save(player1).getFollowing();
     playerRepository.save(player2).getFollowers();
-    return ResponseEntity.created(get(playerId).getHref()).body(followConnection);
+    return ResponseEntity.created(get(playerId).getHref()).body(player1);
   }
 
-  @DeleteMapping("{playerId}/unfollow")
+  @DeleteMapping("{playerId}/unfollow/{playerId2}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
-  public void delete(@PathVariable("playerId") long playerId, @RequestBody FollowConnection followConnection) {
-    long p2 = followConnection.getPlayer2_id();
+  public void delete(@PathVariable("playerId") long playerId, @PathVariable("playerId2") long playerId2) {
     Player player1 = get(playerId);
-    Player player2 = get(p2);
+    Player player2 = get(playerId2);
     Set<Player> following = player1.getFollowing();
     Set<Player> followers = player2.getFollowers();
     following.remove(player2);
     followers.remove(player1);
     playerRepository.save(player1).getFollowing();
     playerRepository.save(player2).getFollowers();
+  }
+
+//  public void deleteFollower(@PathVariable("playerId") long playerId, @RequestBody FollowConnection followConnection) {
+//    long p2 = followConnection.getPlayer2_id();
+//    Player player1 = get(playerId);
+//    Player player2 = get(p2);
+//    Set<Player> following = player1.getFollowing();
+//    Set<Player> followers = player2.getFollowers();
+//    following.remove(player2);
+//    followers.remove(player1);
+//    playerRepository.save(player1).getFollowing();
+//    playerRepository.save(player2).getFollowers();
+//  }
+
+  @Transactional
+  @DeleteMapping("{playerId}")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void delete(@PathVariable("playerId") long playerId) {
+    Player player = playerRepository.findById(playerId).get();
+    Set<Player> following = player.getFollowing();
+    for (Player followed : following) {
+      followed.getFollowers().remove(player);
+    }
+    Set<Player> followers = player.getFollowers();
+    for (Player follower : followers) {
+      follower.getFollowing().remove(player);
+    }
+    playerRepository.saveAll(following);
+    playerRepository.saveAll(followers);
+    playerRepository.delete(player);
   }
 
   @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Resource not found")

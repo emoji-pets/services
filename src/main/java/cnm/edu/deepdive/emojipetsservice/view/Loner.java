@@ -10,6 +10,8 @@ public interface Loner {
 
   String getPet_name();
 
+  String getPet_emoji();
+
   URI getHref();
 
 }
