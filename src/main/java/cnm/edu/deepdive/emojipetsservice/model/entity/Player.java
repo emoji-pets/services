@@ -59,7 +59,7 @@ public class Player implements Loner {
   @Column(name = "pet_name", length = 100)
   private String pet_name;
 
-  @Column(name = "pen_emoji", length = 20)
+  @Column(name = "pet_emoji", length = 20)
   private String pet_emoji;
 
   // TODO set initial value
@@ -83,17 +83,17 @@ public class Player implements Loner {
   @Column(name = "mana_points", nullable = false, columnDefinition = "int default 0")
   private int manaPoints = 0;
   @Column(name = "mana_points_max", nullable = false, columnDefinition = "int default 100")
-  private int manaPointsMax = 100;;
+  private int manaPointsMax = 100;
 
   @Column(name = "health_points", nullable = false, columnDefinition = "int default 0")
   private int healthPoints = 0;
   @Column(name = "health_points_max", nullable = false, columnDefinition = "int default 100")
-  private int healthPointsMax = 100;;
+  private int healthPointsMax = 100;
 
   @Column(name = "power_points", nullable = false, columnDefinition = "int default 0")
   private int powerPoints = 0;
   @Column(name = "power_points_max", nullable = false, columnDefinition = "int default 100")
-  private int powerPointsMax = 100;;
+  private int powerPointsMax = 100;
 
   public long getId() {
     return id;
