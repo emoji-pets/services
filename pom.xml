@@ -63,6 +63,12 @@
       <artifactId>google-api-client</artifactId>
       <version>1.23.0</version>
     </dependency>
+
+    <dependency>
+      <groupId>com.github.kongchen</groupId>
+      <artifactId>swagger-maven-plugin</artifactId>
+      <version>3.1.7</version>
+    </dependency>
   </dependencies>
 
   <build>
