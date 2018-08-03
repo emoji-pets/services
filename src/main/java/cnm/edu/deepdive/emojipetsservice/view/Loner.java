@@ -12,6 +12,8 @@ public interface Loner {
 
   String getPet_emoji();
 
+  String getStatus();
+
   URI getHref();
 
 }

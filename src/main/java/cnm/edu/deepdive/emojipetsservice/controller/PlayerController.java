@@ -52,17 +52,14 @@ public class PlayerController {
     return ResponseEntity.created(player.getHref()).body(player);
   }
 
-//  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-//  public ResponseEntity<Player> post(@RequestBody Player... players) {
-//    for (Player player : players) {
-//      playerRepository.save(player);
-//    }
-//    return ResponseEntity.created(players[0].getHref()).body(players[0]);
-//  }
-
-  @GetMapping("{player_id}")
+  @GetMapping("id/{player_id}")
   public Player get(@PathVariable("player_id") long id) {
     return playerRepository.findById(id).get();
+  }
+
+  @GetMapping("{player_oauthId}")
+  public Player get(@PathVariable("player_oauthId") String oauthId) {
+    return playerRepository.findFirstByOauthId(oauthId).get();
   }
 
   @PutMapping(value = "{playerId}/display_name", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
@@ -75,6 +72,18 @@ public class PlayerController {
   @PutMapping(value = "{playerId}/display_name", consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
   public String setDisplay_nameText(@PathVariable("playerId") long playerId, @RequestBody String display_name) {
     return setDisplay_nameJson(playerId, display_name);
+  }
+
+  @PutMapping(value = "{playerId}/status", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
+  public String setStatusJson(@PathVariable("playerId") long playerId, @RequestBody String status) {
+    Player player = get(playerId);
+    player.setStatus(status);
+    return playerRepository.save(player).getStatus();
+  }
+
+  @PutMapping(value = "{playerId}/status", consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
+  public String setStatus(@PathVariable("playerId") long id, @RequestBody String status) {
+    return setStatusJson(id, status);
   }
 
   @PutMapping(value = "{playerId}/pet_name", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
@@ -293,18 +302,6 @@ public class PlayerController {
     playerRepository.save(player2).getFollowers();
   }
 
-//  public void deleteFollower(@PathVariable("playerId") long playerId, @RequestBody FollowConnection followConnection) {
-//    long p2 = followConnection.getPlayer2_id();
-//    Player player1 = get(playerId);
-//    Player player2 = get(p2);
-//    Set<Player> following = player1.getFollowing();
-//    Set<Player> followers = player2.getFollowers();
-//    following.remove(player2);
-//    followers.remove(player1);
-//    playerRepository.save(player1).getFollowing();
-//    playerRepository.save(player2).getFollowers();
-//  }
-
   @Transactional
   @DeleteMapping("{playerId}")
   @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -325,7 +322,6 @@ public class PlayerController {
 
   @ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "Resource not found")
   @ExceptionHandler(NoSuchElementException.class)
-  public void notFound() {
-  }
+  public void notFound() {}
 
 }

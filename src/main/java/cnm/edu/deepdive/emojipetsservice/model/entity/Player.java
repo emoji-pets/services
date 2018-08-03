@@ -43,8 +43,14 @@ public class Player implements Loner {
   @Column(name = PRIMARY_KEY_COLUMN, nullable = false, updatable = false)
   private long id;
 
+  @Column(name = "oauthId", nullable = false, length = 400, unique = true)
+  private String oauthId;
+
   @Column(name = "display_name", nullable = false, length = 100)
   private String display_name;
+
+  @Column(name = "status", nullable = false, length = 550)
+  private String status = "";
 
   @JsonSerialize(contentAs = Loner.class)
   @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH,
@@ -107,6 +113,14 @@ public class Player implements Loner {
 
   public String getDisplay_name() {
     return display_name;
+  }
+
+  public String getStatus() {
+    return status;
+  }
+
+  public void setStatus(String status) {
+    this.status = status;
   }
 
   public String getPet_emoji() {
@@ -243,5 +257,13 @@ public class Player implements Loner {
 
   public URI getHref() {
     return entityLinks.linkForSingleResource(Player.class, id).toUri();
+  }
+
+  public String getOauthId() {
+    return oauthId;
+  }
+
+  public void setOauthId(String oauthId) {
+    this.oauthId = oauthId;
   }
 }
