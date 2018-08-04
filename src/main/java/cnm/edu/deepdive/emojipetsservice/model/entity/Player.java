@@ -86,24 +86,24 @@ public class Player implements Loner {
   @Column(nullable = false)
   private Long timeStamp = new Date().getTime();
 
-  @Column(name = "courage_points", nullable = false, columnDefinition = "long default 0")
+  @Column(name = "courage_points", nullable = false)
   private long couragePoints = 0;
-  @Column(name = "courage_points_max", nullable = false, columnDefinition = "int default 100")
+  @Column(name = "courage_points_max", nullable = false)
   private int couragePointsMax = 100;
 
-  @Column(name = "mana_points", nullable = false, columnDefinition = "long default 0")
+  @Column(name = "mana_points", nullable = false)
   private long manaPoints = 0;
-  @Column(name = "mana_points_max", nullable = false, columnDefinition = "int default 100")
+  @Column(name = "mana_points_max", nullable = false)
   private int manaPointsMax = 100;
 
-  @Column(name = "health_points", nullable = false, columnDefinition = "long default 0")
+  @Column(name = "health_points", nullable = false)
   private long healthPoints = 0;
-  @Column(name = "health_points_max", nullable = false, columnDefinition = "int default 100")
+  @Column(name = "health_points_max", nullable = false)
   private int healthPointsMax = 100;
 
-  @Column(name = "power_points", nullable = false, columnDefinition = "long default 0")
+  @Column(name = "power_points", nullable = false)
   private long powerPoints = 0;
-  @Column(name = "power_points_max", nullable = false, columnDefinition = "int default 100")
+  @Column(name = "power_points_max", nullable = false)
   private int powerPointsMax = 100;
 
   public long getId() {
