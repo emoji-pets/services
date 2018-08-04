@@ -1,6 +1,7 @@
 package cnm.edu.deepdive.emojipetsservice.model.entity;
 
 import cnm.edu.deepdive.emojipetsservice.view.Loner;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.net.URI;
 import java.util.Date;
@@ -17,12 +18,14 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.EntityLinks;
 import org.springframework.stereotype.Component;
 
 @Component
 @Entity
+@JsonIgnoreProperties(value = {"id", "followers", "following"}, allowGetters = true)
 public class Player implements Loner {
 
   public static final String PRIMARY_KEY_COLUMN = "player_id";
@@ -83,23 +86,23 @@ public class Player implements Loner {
   @Column(nullable = false)
   private Long timeStamp = new Date().getTime();
 
-  @Column(name = "courage_points", nullable = false, columnDefinition = "int default 0")
-  private int couragePoints = 0;
+  @Column(name = "courage_points", nullable = false, columnDefinition = "long default 0")
+  private long couragePoints = 0;
   @Column(name = "courage_points_max", nullable = false, columnDefinition = "int default 100")
   private int couragePointsMax = 100;
 
-  @Column(name = "mana_points", nullable = false, columnDefinition = "int default 0")
-  private int manaPoints = 0;
+  @Column(name = "mana_points", nullable = false, columnDefinition = "long default 0")
+  private long manaPoints = 0;
   @Column(name = "mana_points_max", nullable = false, columnDefinition = "int default 100")
   private int manaPointsMax = 100;
 
-  @Column(name = "health_points", nullable = false, columnDefinition = "int default 0")
-  private int healthPoints = 0;
+  @Column(name = "health_points", nullable = false, columnDefinition = "long default 0")
+  private long healthPoints = 0;
   @Column(name = "health_points_max", nullable = false, columnDefinition = "int default 100")
   private int healthPointsMax = 100;
 
-  @Column(name = "power_points", nullable = false, columnDefinition = "int default 0")
-  private int powerPoints = 0;
+  @Column(name = "power_points", nullable = false, columnDefinition = "long default 0")
+  private long powerPoints = 0;
   @Column(name = "power_points_max", nullable = false, columnDefinition = "int default 100")
   private int powerPointsMax = 100;
 
@@ -135,11 +138,11 @@ public class Player implements Loner {
     this.display_name = display_name;
   }
 
-  public int getCouragePoints() {
+  public long getCouragePoints() {
     return couragePoints;
   }
 
-  public void setCouragePoints(int couragePoints) {
+  public void setCouragePoints(long couragePoints) {
     this.couragePoints = couragePoints;
   }
 
@@ -151,11 +154,11 @@ public class Player implements Loner {
     this.couragePointsMax = couragePointsMax;
   }
 
-  public int getManaPoints() {
+  public long getManaPoints() {
     return manaPoints;
   }
 
-  public void setManaPoints(int manaPoints) {
+  public void setManaPoints(long manaPoints) {
     this.manaPoints = manaPoints;
   }
 
@@ -167,11 +170,11 @@ public class Player implements Loner {
     this.manaPointsMax = manaPointsMax;
   }
 
-  public int getHealthPoints() {
+  public long getHealthPoints() {
     return healthPoints;
   }
 
-  public void setHealthPoints(int healthPoints) {
+  public void setHealthPoints(long healthPoints) {
     this.healthPoints = healthPoints;
   }
 
@@ -183,11 +186,11 @@ public class Player implements Loner {
     this.healthPointsMax = healthPointsMax;
   }
 
-  public int getPowerPoints() {
+  public long getPowerPoints() {
     return powerPoints;
   }
 
-  public void setPowerPoints(int powerPoints) {
+  public void setPowerPoints(long powerPoints) {
     this.powerPoints = powerPoints;
   }
 

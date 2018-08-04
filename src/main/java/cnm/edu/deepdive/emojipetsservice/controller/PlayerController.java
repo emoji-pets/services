@@ -2,8 +2,11 @@ package cnm.edu.deepdive.emojipetsservice.controller;
 
 import cnm.edu.deepdive.emojipetsservice.model.dao.PlayerRepository;
 import cnm.edu.deepdive.emojipetsservice.model.entity.Player;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import javax.transaction.Transactional;
@@ -59,7 +62,23 @@ public class PlayerController {
 
   @GetMapping("{player_oauthId}")
   public Player get(@PathVariable("player_oauthId") String oauthId) {
-    return playerRepository.findFirstByOauthId(oauthId).get();
+    Player player = playerRepository.findFirstByOauthId(oauthId).get();
+    return player;
+  }
+
+  @PutMapping(value = "{player_oauthId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
+  public Player putJson(@PathVariable("player_oauthId") String oauthId, @RequestBody Player playerIncomming) {
+    Player player = playerRepository.findFirstByOauthId(oauthId).get();
+    ObjectMapper objectMapper = new ObjectMapper();
+    Map<String, Object> map = objectMapper.convertValue(player, new TypeReference<Map<String, Object>>() {});
+    map.putAll(objectMapper.convertValue(playerIncomming, new TypeReference<Map<String, Object>>() {}));
+    Player mergedPlayer = objectMapper.convertValue(map, Player.class);
+    return playerRepository.save(mergedPlayer);
+  }
+
+  @PutMapping(value = "{player_oauthId}", consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
+  public Player put(@PathVariable("player_oauthId") String oauthId, @RequestBody Player playerIncomming) {
+    return putJson(oauthId, playerIncomming);
   }
 
   @PutMapping(value = "{playerId}/display_name", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
@@ -163,8 +182,8 @@ public class PlayerController {
   }
 
   @PutMapping(value = "{playerId}/couragePoints", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  public int setCouragePointsJson(@PathVariable("playerId") long playerId,
-      @RequestBody int couragePoints) {
+  public long setCouragePointsJson(@PathVariable("playerId") long playerId,
+      @RequestBody long couragePoints) {
     Player player = get(playerId);
     player.setCouragePoints(couragePoints);
     return playerRepository.save(player).getCouragePoints();
@@ -173,7 +192,7 @@ public class PlayerController {
   @PutMapping(value = "{playerId}/couragePoints", consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
   public String setCouragePointsText(@PathVariable("playerId") long playerId,
       @RequestBody String couragePoints) {
-    return Integer.toString(setCouragePointsJson(playerId, Integer.parseInt(couragePoints)));
+    return Long.toString(setCouragePointsJson(playerId, Integer.parseInt(couragePoints)));
   }
 
   @PutMapping(value = "{playerId}/couragePointsMax", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -191,8 +210,8 @@ public class PlayerController {
   }
 
   @PutMapping(value = "{playerId}/manaPoints", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  public int setManaPointsJson(@PathVariable("playerId") long playerId,
-      @RequestBody int manaPoints) {
+  public long setManaPointsJson(@PathVariable("playerId") long playerId,
+      @RequestBody long manaPoints) {
     Player player = get(playerId);
     player.setManaPoints(manaPoints);
     return playerRepository.save(player).getManaPoints();
@@ -201,7 +220,7 @@ public class PlayerController {
   @PutMapping(value = "{playerId}/manaPoints", consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
   public String setManaPointsText(@PathVariable("playerId") long playerId,
       @RequestBody String manaPoints) {
-    return Integer.toString(setManaPointsJson(playerId, Integer.parseInt(manaPoints)));
+    return Long.toString(setManaPointsJson(playerId, Integer.parseInt(manaPoints)));
   }
 
   @PutMapping(value = "{playerId}/manaPointsMax", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -219,8 +238,8 @@ public class PlayerController {
   }
 
   @PutMapping(value = "{playerId}/healthPoints", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  public int setHealthPointsJson(@PathVariable("playerId") long playerId,
-      @RequestBody int healthPoints) {
+  public long setHealthPointsJson(@PathVariable("playerId") long playerId,
+      @RequestBody long healthPoints) {
     Player player = get(playerId);
     player.setHealthPoints(healthPoints);
     return playerRepository.save(player).getHealthPoints();
@@ -229,7 +248,7 @@ public class PlayerController {
   @PutMapping(value = "{playerId}/healthPoints", consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
   public String setHealthPointsText(@PathVariable("playerId") long playerId,
       @RequestBody String healthPoints) {
-    return Integer.toString(setHealthPointsJson(playerId, Integer.parseInt(healthPoints)));
+    return Long.toString(setHealthPointsJson(playerId, Integer.parseInt(healthPoints)));
   }
 
   @PutMapping(value = "{playerId}/healthPointsMax", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -247,8 +266,8 @@ public class PlayerController {
   }
 
   @PutMapping(value = "{playerId}/powerPoints", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  public int setPowerPointsJson(@PathVariable("playerId") long playerId,
-      @RequestBody int powerPoints) {
+  public long setPowerPointsJson(@PathVariable("playerId") long playerId,
+      @RequestBody long powerPoints) {
     Player player = get(playerId);
     player.setPowerPoints(powerPoints);
     return playerRepository.save(player).getPowerPoints();
@@ -257,7 +276,7 @@ public class PlayerController {
   @PutMapping(value = "{playerId}/powerPoints", consumes = MediaType.TEXT_PLAIN_VALUE, produces = MediaType.TEXT_PLAIN_VALUE)
   public String setPowerPointsText(@PathVariable("playerId") long playerId,
       @RequestBody String powerPoints) {
-    return Integer.toString(setPowerPointsJson(playerId, Integer.parseInt(powerPoints)));
+    return Long.toString(setPowerPointsJson(playerId, Integer.parseInt(powerPoints)));
   }
 
   @PutMapping(value = "{playerId}/powerPointsMax", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
