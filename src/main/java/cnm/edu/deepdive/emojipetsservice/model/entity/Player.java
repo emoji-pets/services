@@ -25,7 +25,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Entity
-@JsonIgnoreProperties(value = {"id", "followers", "following"}, allowGetters = true)
+@JsonIgnoreProperties(value = {"followers", "following", "href"}, allowGetters = true)
 public class Player implements Loner {
 
   public static final String PRIMARY_KEY_COLUMN = "player_id";
@@ -46,7 +46,7 @@ public class Player implements Loner {
   @Column(name = PRIMARY_KEY_COLUMN, nullable = false, updatable = false)
   private long id;
 
-  @Column(name = "oauthId", nullable = false, length = 400, unique = true)
+  @Column(name = "oauthId", nullable = false, length = 400)
   private String oauthId;
 
   @Column(name = "display_name", nullable = false, length = 100)
