@@ -6,6 +6,8 @@ public interface Loner {
 
   long getId();
 
+  String getOauthId();
+
   String getDisplay_name();
 
   String getPet_name();
