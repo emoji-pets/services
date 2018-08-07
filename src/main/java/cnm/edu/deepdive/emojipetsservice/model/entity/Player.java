@@ -55,6 +55,9 @@ public class Player implements Loner {
   @Column(name = "status", nullable = false, length = 550)
   private String status = "";
 
+  @Column(name = "wall", nullable = false, length = 5000)
+  private String wall = "";
+
   @JsonSerialize(contentAs = Loner.class)
   @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.REFRESH,
       CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}) // cascade = ?
@@ -136,6 +139,14 @@ public class Player implements Loner {
 
   public void setDisplay_name(String display_name) {
     this.display_name = display_name;
+  }
+
+  public String getWall() {
+    return wall;
+  }
+
+  public void setWall(String wall) {
+    this.wall = wall;
   }
 
   public long getCouragePoints() {

@@ -16,6 +16,8 @@ public interface Loner {
 
   String getStatus();
 
+  String getWall();
+
   URI getHref();
 
 }
