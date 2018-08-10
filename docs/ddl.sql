@@ -1,0 +1,20 @@
+create sequence hibernate_sequence start with 1 increment by 1
+create table followers (player2_id bigint not null, player1_id bigint not null, primary key (player2_id, player1_id))
+create table player (player_id bigint not null, courage_points bigint not null, courage_points_max integer not null, display_name varchar(100) not null, health_points bigint not null, health_points_max integer not null, level int default 1 not null, mana_points bigint not null, mana_points_max integer not null, max_xp int default 1 not null, oauth_id varchar(400) not null, pet_emoji varchar(20), pet_name varchar(100), power_points bigint not null, power_points_max integer not null, status varchar(550) not null, time_stamp bigint not null, wall varchar(5000) not null, xp int default 1 not null, primary key (player_id))
+alter table followers add constraint FKohvkfc2ry6b8tk5bhnvjsuuus foreign key (player1_id) references player
+alter table followers add constraint FKjqxhbnd0my6322l08ebwl8eqk foreign key (player2_id) references player
+create sequence hibernate_sequence start with 1 increment by 1
+create table followers (player2_id bigint not null, player1_id bigint not null, primary key (player2_id, player1_id))
+create table player (player_id bigint not null, courage_points bigint not null, courage_points_max integer not null, display_name varchar(100) not null, health_points bigint not null, health_points_max integer not null, level int default 1 not null, mana_points bigint not null, mana_points_max integer not null, max_xp int default 1 not null, oauth_id varchar(400) not null, pet_emoji varchar(20), pet_name varchar(100), power_points bigint not null, power_points_max integer not null, status varchar(550) not null, time_stamp bigint not null, wall varchar(5000) not null, xp int default 1 not null, primary key (player_id))
+alter table followers add constraint FKohvkfc2ry6b8tk5bhnvjsuuus foreign key (player1_id) references player
+alter table followers add constraint FKjqxhbnd0my6322l08ebwl8eqk foreign key (player2_id) references player
+create sequence hibernate_sequence start with 1 increment by 1
+create table followers (player2_id bigint not null, player1_id bigint not null, primary key (player2_id, player1_id))
+create table player (player_id bigint not null, courage_points bigint not null, courage_points_max integer not null, display_name varchar(100) not null, health_points bigint not null, health_points_max integer not null, level int default 1 not null, mana_points bigint not null, mana_points_max integer not null, max_xp int default 1 not null, oauth_id varchar(400) not null, pet_emoji varchar(20), pet_name varchar(100), power_points bigint not null, power_points_max integer not null, status varchar(550) not null, time_stamp bigint not null, wall varchar(5000) not null, xp int default 1 not null, primary key (player_id))
+alter table followers add constraint FKohvkfc2ry6b8tk5bhnvjsuuus foreign key (player1_id) references player
+alter table followers add constraint FKjqxhbnd0my6322l08ebwl8eqk foreign key (player2_id) references player
+create sequence hibernate_sequence start with 1 increment by 1
+create table followers (player2_id bigint not null, player1_id bigint not null, primary key (player2_id, player1_id))
+create table player (player_id bigint not null, courage_points bigint not null, courage_points_max integer not null, display_name varchar(100) not null, health_points bigint not null, health_points_max integer not null, level int default 1 not null, mana_points bigint not null, mana_points_max integer not null, max_xp int default 1 not null, oauth_id varchar(400) not null, pet_emoji varchar(20), pet_name varchar(100), power_points bigint not null, power_points_max integer not null, status varchar(550) not null, time_stamp bigint not null, wall varchar(5000) not null, xp int default 1 not null, primary key (player_id))
+alter table followers add constraint FKohvkfc2ry6b8tk5bhnvjsuuus foreign key (player1_id) references player
+alter table followers add constraint FKjqxhbnd0my6322l08ebwl8eqk foreign key (player2_id) references player

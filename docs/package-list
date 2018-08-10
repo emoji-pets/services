@@ -1,0 +1,5 @@
+cnm.edu.deepdive.emojipetsservice
+cnm.edu.deepdive.emojipetsservice.controller
+cnm.edu.deepdive.emojipetsservice.model.dao
+cnm.edu.deepdive.emojipetsservice.model.entity
+cnm.edu.deepdive.emojipetsservice.view
