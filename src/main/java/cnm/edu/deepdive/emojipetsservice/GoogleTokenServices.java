@@ -26,6 +26,10 @@ import org.springframework.security.oauth2.provider.token.DefaultAccessTokenConv
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.stereotype.Component;
 
+/**
+ * This is the GoogleTokenServices class and it implements ResourceServerTokenServices.
+ * This class holds the code for converting the clientId.
+ */
 @Component
 public class GoogleTokenServices implements ResourceServerTokenServices {
 

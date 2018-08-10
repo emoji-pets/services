@@ -26,6 +26,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * This is the PlayerController class.
+ * This holds the codes for creating our entity table in the database.
+ * This is where relationships of users are made and unmade.
+ * This is where players are made.
+ * This has a @RestController annotation. Ths annotation is used for APIs that serve JSON, XML, etc.
+ * This annotation enables the controller methods to return an object that will be serialized to one
+ * or more of these formats.
+ * This also has a @RequestMapping annotation. This annotation will prefix all routes within the
+ * controller with the specified path.
+ */
 @RestController
 @ExposesResourceFor(Player.class)
 @RequestMapping("/players")
@@ -33,33 +44,66 @@ public class PlayerController {
 
   private PlayerRepository playerRepository;
 
+  /**
+   *
+   * @param playerRepository This is a constructor that has an @Autowired annotation.
+   * This annotation is used for automatic dependency injection.
+   */
   @Autowired
   public PlayerController(PlayerRepository playerRepository) {
     this.playerRepository = playerRepository;
   }
 
+  /**
+   *
+   * @return This is a @GetMapping annotation which is a composed annotation that acts
+   * as a shortcut for @RequestMapping(method = RequestMethod.GET).
+   * This returns playerRepository.
+   */
   @GetMapping
   public Iterable<Player> list() {
     return playerRepository.findAll();
   }
 
+  /**
+   *
+   * @return This creates a new ArrayList of players and it returns players.
+   */
   public List<Player> listAll() {
     List<Player> players = new ArrayList<>();
     playerRepository.findAll().forEach(players::add);
     return players;
   }
 
+  /**
+   *
+   * @param player This has a @PostMapping annotation which is a composed annotation
+   * that acts as a shortcut for @RequestMapping(method = RequestMethod.POST).
+   * @return This returns a ResponseEntity.
+   */
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<Player> post(@RequestBody Player player) {
     playerRepository.save(player);
     return ResponseEntity.created(player.getHref()).body(player);
   }
 
+  /**
+   *
+   * @param id This is a @GetMapping annotation which is a composed annotation that acts
+   * as a shortcut for @RequestMapping(method = RequestMethod.GET).
+   * @return This returns an id from the playerRepository.
+   */
   @GetMapping("id/{player_id}")
   public Player get(@PathVariable("player_id") long id) {
     return playerRepository.findById(id).get();
   }
 
+  /**
+   *
+   * @param oauthId This is a @GetMapping annotation which is a composed annotation that acts
+   * as a shortcut for @RequestMapping(method = RequestMethod.GET).
+   * @return This returns player.
+   */
   @GetMapping("{player_oauthId}")
   public Player get(@PathVariable("player_oauthId") String oauthId) {
     Player player = playerRepository.findFirstByOauthId(oauthId).get();
