@@ -14,8 +14,8 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
  * This is the EmojiPetsServiceApplication class and it extends ResourceServerConfigurerAdapter.
  * This class has @EnableWebSecurity, @EnableResourceServer, and @SpringBootApplication annotations.
  * The @EnableWebSecurity allows Spring to find and automatically apply the class to the global WebSecurity.
- * The @SpringBootApplication annotation is equivalent to using @Configuration, @EnableAutoConfiguration and
- * @ComponentScan with their default attributes
+ * The @SpringBootApplication annotation is equivalent to using @Configuration, @EnableAutoConfiguration
+ * and @ComponentScan with their default attributes
  */
 @EnableWebSecurity
 @EnableResourceServer

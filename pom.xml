@@ -65,6 +65,12 @@
     </dependency>
 
     <dependency>
+      <groupId>javax.interceptor</groupId>
+      <artifactId>javax.interceptor-api</artifactId>
+      <version>1.2</version>
+    </dependency>
+
+    <dependency>
       <groupId>com.github.kongchen</groupId>
       <artifactId>swagger-maven-plugin</artifactId>
       <version>3.1.7</version>
