@@ -58,6 +58,7 @@ It has more functionality that has not been implemented in the front-end, yet.  
 
 ### License
 
+- [This repo's license](https://github.com/emoji-pets/services/blob/master/LICENSE)
 - [Jackson](https://github.com/FasterXML/jackson-core/blob/master/src/main/resources/META-INF/LICENSE)
 - [Hibernate](http://hibernate.org/community/license/)
 - [Google Oauth](https://developers.google.com/identity/protocols/OAuth2)
@@ -66,7 +67,7 @@ It has more functionality that has not been implemented in the front-end, yet.  
 
 ### Swagger Docs
 
-Lora, please update and put them here! :)
+[Our REST Endpoint documentation](docs/rest-api.html)
 
 ### Building
 
