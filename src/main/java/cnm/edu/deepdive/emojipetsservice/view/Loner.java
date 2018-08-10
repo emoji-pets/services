@@ -2,6 +2,9 @@ package cnm.edu.deepdive.emojipetsservice.view;
 
 import java.net.URI;
 
+/**
+ * This is the Loner interface.
+ */
 public interface Loner {
 
   long getId();
